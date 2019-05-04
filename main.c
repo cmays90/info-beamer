@@ -1572,6 +1572,9 @@ int main(int argc, char *argv[]) {
 
     glfwSetWindowPos(window, xpos, ypos);
     
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    glfwSetWindowAttrib(window, GLFW_FLOATING, GLFW_TRUE);
+    
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
