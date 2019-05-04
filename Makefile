@@ -29,7 +29,7 @@ LUA_LDFLAGS ?= -L/usr/lib -llua5.1
 LUA_LUAC    ?= luac
 endif
 
-CFLAGS  += -DVERSION='"$(VERSION)"'
+CFLAGS  += -D_DEFAULT_SOURCE -DVERSION='"$(VERSION)"'
 CFLAGS  += $(LUA_CFLAGS) -I/usr/include/freetype2/ -I/usr/include/ffmpeg -std=c99 -Wall
 LDFLAGS += $(LUA_LDFLAGS) -levent -lglfw -lGL -lGLU -lGLEW -lftgl -lIL -lILU -lavformat -lavcodec -lavutil -lswscale -lz -lm -ldl -lXi -lX11 -lXxf86vm -lXrandr -lXinerama -lXcursor -lpthread
 
