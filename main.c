@@ -22,7 +22,6 @@
 
 #include <GL/glew.h>
 #include <GL/gl.h>
-#include <GL/glext.h>
 #include <GLFW/glfw3.h>
 #include <IL/il.h>
 #include <IL/ilu.h>
@@ -1484,6 +1483,8 @@ int main(int argc, char *argv[]) {
             "  INFOBEAMER_FULLSCALE=1   # Scale root node to full screen size\n"
             "  INFOBEAMER_WIDTH=<w>     # Width (default 1024)\n"
             "  INFOBEAMER_HEIGHT=<h>    # Height (default 768)\n"
+            "  INFOBEAMER_XPOS=<x>      # Window position x (default 0)\n"
+            "  INFOBEAMER_YPOS=<y>      # Window position y (default 0)\n"
             "\n",
             argv[0], LISTEN_ADDR, DEFAULT_PORT);
         exit(1);
@@ -1542,11 +1543,25 @@ int main(int argc, char *argv[]) {
     if (new_height)
         height = atoi(new_height);
 
+    int xpos = 0;
+    int ypos = 0;
+    
+    const char *new_xpos = getenv("INFOBEAMER_XPOS");
+    if (new_xpos)
+        xpos = atoi(new_xpos);
+    
+    const char *new_ypos = getenv("INFOBEAMER_YPOS");
+    if (new_ypos)
+        ypos = atoi(new_ypos);
+    
+
     fprintf(stderr, INFO("initial size is %dx%d\n"), width, height);
 
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     if (!fullscreen)
         monitor = NULL;
+
+    glfwWindowHint(GLFW_DECORATED, GL_FALSE);
 
     window = glfwCreateWindow(width, height, VERSION_STRING, monitor, NULL);
     if (!window)
@@ -1555,6 +1570,8 @@ int main(int argc, char *argv[]) {
     glfwSetFramebufferSizeCallback(window, reshape);
     glfwSetKeyCallback(window, keypressed);
 
+    glfwSetWindowPos(window, xpos, ypos);
+    
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
